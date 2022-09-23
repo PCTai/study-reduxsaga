@@ -1,6 +1,6 @@
-import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Box, Button, CircularProgress, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../authSlice";
 
 const useStyle = makeStyles((theme) =>({
@@ -21,7 +21,7 @@ const useStyle = makeStyles((theme) =>({
 function LoginPage() {
     const classes =useStyle();
     const dispatch = useDispatch();
-
+    const isLogging = useSelector((state) => state.auth.logging)
     const handleLoginClick =() =>{
         dispatch(authActions.login({
             userName:"",
@@ -35,7 +35,9 @@ function LoginPage() {
                 Student Manager
             </Typography>
             <Box className={classes.boxBtn} >
-                <Button fullWidth variant="contained" color="primary" onClick={handleLoginClick}>Fake Login</Button>
+                <Button fullWidth variant="contained" color="primary" onClick={handleLoginClick}>
+                {isLogging && <CircularProgress size={20} color="secondary" />} &nbsp;
+                    Fake Login</Button>
             </Box>
         </Paper>
     </div> );

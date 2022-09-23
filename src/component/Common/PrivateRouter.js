@@ -1,14 +1,15 @@
 import React from "react";
-import { Navigate, Route, PathRouteProps } from 'react-router-dom'
-import { Admin } from "../layout";
+import { Redirect, Route} from 'react-router-dom';
+import Admin from "../layout/Admin";
 
-function PrivateRouter() {
+
+function PrivateRouter(props) {
     // Check user is logged in
     // if yes, show router
     // else  redirect to LoginPage
     const isLoggedIn = Boolean(localStorage.getItem('access_token'));
-    if(!isLoggedIn) return <Navigate to="/login" />
-    return ( <Route path='admin' element={<Admin/>}/> );
+    if(!isLoggedIn) return <Redirect to="/login" />
+    return ( <Route {...props} ><Admin/> </Route>);
 }
 
 export {PrivateRouter} ;

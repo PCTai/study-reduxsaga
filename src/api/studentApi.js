@@ -4,7 +4,7 @@ import axiosClient from "./axiosClient";
 const studentApi= {
     getAllStudent(params){
         const url ='/students';
-        return axiosClient.get(url,params);
+        return axiosClient.get(url,{params});
     },
     getById(id){
         const url =`/students/${id}`;

@@ -1,30 +1,32 @@
 import React, { useEffect } from 'react';
-import studentApi from './api/studentApi';
-import { Routes,Route,Navigate } from 'react-router-dom';
+import { Switch,Route, Redirect } from 'react-router-dom';
 import LoginPage from './features/auth/pages/LoginPage';
-import { Admin } from './component/layout';
-import { NotFound } from './component/Common';
-import { Button } from '@material-ui/core';
-import { useDispatch } from "react-redux";
-import { authActions } from "./features/auth/authSlice";
+import { NotFound, PrivateRouter } from './component/Common';
+import Admin from './component/layout/Admin';
 
 function App() {
-  const dispatch = useDispatch()
-  const handleLogoutClick =() =>{
-    dispatch(authActions.logout());
-  }
-  // useEffect (() =>{
-  //   studentApi.getAllStudent().then(response => console.log(response))
-  // })
-  const isLoggedIn = Boolean(localStorage.getItem('access_token'));
+  
   return (<>
-   <Button variant='contained' color='primary' onClick={handleLogoutClick}>Logout</Button>
-    <Routes>
-      <Route path='/login' element={<LoginPage/>}/>
-      <Route path="/admin" element={!isLoggedIn ? <Navigate to="/login" /> : <Admin/>}/>
-      {/* NOT Found */}
-      <Route path='*'  element={<NotFound/>}/>
-    </Routes>
+   
+   
+
+      <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+
+        <PrivateRouter path="/admin">
+          <Admin></Admin>
+        </PrivateRouter>
+        
+
+        <Route path="/">
+          <Redirect to="/admin" />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
   </>
   );
 }
